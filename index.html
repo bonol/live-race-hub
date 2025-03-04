@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Live Race Hub</title>
+        <link rel="stylesheet" href="app.css">
+        <script type="module" src="dist/bundle.js" defer></script>
+    </head>
+    <body>
+        <template id="race-input">
+            <form>
+                <div class="form-control">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" />
+                </div>
+                <div class="form-control">
+                    <label for="min-racer">Min</label>
+                    <input type="number" id="min-racer" value="2" />
+                </div>
+                <div class="form-control">
+                    <label for="max-racer">Max</label>
+                    <input type="number" id="max-racer" value="8" />
+                </div>
+                <section>
+                    <div id="racers-list"></div>
+                    <button type="button" id="add-racer">Add Racer</button>
+                </section>
+
+                <button type="submit">Save Race</button>
+            </form>
+        </template>
+        <template id="racer-entry">
+            <div class="racer-entry">
+                <div class="form-control">
+                    <label for="racer-name-1">Racer Name</label>
+                    <input type="text" id="racer-name-1" name="racer-name[]" placeholder="Enter racer name">
+                </div>
+                <div class="form-control">
+                    <label for="racer-lane-1">Racer Lane</label>
+                    <input type="number" id="racer-lane-1" name="racer-lane[]" placeholder="Enter racer lane">
+                </div>
+                <div class="form-control" hidden="true">
+                    <label for="racer-place-1">Racer Place</label>
+                    <input type="number" id="racer-place-1" name="racer-place[]" placeholder="Enter racer place">
+                </div>
+            </div>
+        </template>
+        <template id="race-list">
+            <section class="races">
+                <header>
+                    <h2></h2>
+                </header>
+                <ul></ul>
+            </section>
+        </template>
+        <template id="single-race">
+            <li>
+              <h2></h2>
+              <h3></h3>
+              <p></p>
+            </li>
+        </template>
+        <template id="single-racer">
+            <li>
+                <h3></h3>
+                <h4></h4>
+            </li>
+        </template>
+
+        <div id="app"></div>
+    </body>
+</html>
