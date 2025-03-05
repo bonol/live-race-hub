@@ -6,7 +6,7 @@ import RaceItem from "./race-item";
 export default class RaceList extends Component<HTMLDivElement, HTMLElement> {
     assignedRaces: Race[] = [];
 
-    constructor(private type: "pending" | "ready" | "finished"){
+    constructor(public type: "pending" | "ready" | "finished"){
         super("race-list", "app", false, `${type}-races`);
         this.configure();
         this.renderContent();
