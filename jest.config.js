@@ -7,5 +7,6 @@ module.exports = {
     transform: {
         '^.+\\.(ts)$': 'ts-jest'
     },
-    testMatch: ['**/?(*.)+(spec|test).ts']
+    testMatch: ['**/?(*.)+(spec|test).ts'],
+    setupFiles: ['./jest.setup.js'],
 }

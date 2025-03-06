@@ -5,8 +5,7 @@ export default class RacerItem extends Component<HTMLUListElement, HTMLLIElement
     private racer: Racer;
 
     get racerPlace() {
-        this.racer.racePlace === null || this.racer.racePlace?.toString() === "" ? "" : `Place: ${this.racer.racePlace}`;
-        return '';
+        return this.racer.racePosition === undefined || this.racer.racePosition?.toString() === "" ? "" : `Place: ${this.racer.racePosition}`;
     }
 
     constructor(hostId: string, racer: Racer){

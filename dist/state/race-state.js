@@ -1,3 +1,5 @@
+import * as DataStorage from '../utils/data-storage';
+import { validateRaceInput } from "../utils/validation";
 class State {
     constructor() {
         this.listeners = [];
@@ -19,34 +21,26 @@ export class RaceState extends State {
         return this.instance;
     }
     addRace(newRace) {
-        if (this.isRaceNameTaken(newRace.name)) {
-            throw new Error(`Race name ${newRace.name} already taken`);
-        }
+        validateRaceInput(newRace, this.races, true);
         this.races.push(newRace);
-        localStorage.setItem('races', JSON.stringify(this.races));
-        console.log('current race list', this.races);
+        DataStorage.saveData('races', JSON.stringify(this.races));
         this.updateListeners();
     }
-    isRaceNameTaken(name) {
-        return this.races.some(race => race.name === name);
+    editRace(raceToUpdate) {
+        validateRaceInput(raceToUpdate, this.races, false);
+        this.races = this.races.filter(race => race.id !== raceToUpdate.id);
+        this.races.push(raceToUpdate);
+        DataStorage.saveData('races', JSON.stringify(this.races));
+        console.log('current race list after editRace', this.races);
+        this.updateListeners();
     }
-    editRace() { }
+    getRace(raceId) {
+        return this.races.find(race => race.id === raceId);
+    }
     deleteRace() { }
     updateListeners() {
         for (const listenerFn of this.listeners) {
             listenerFn(this.races.slice());
-        }
-    }
-    updateLocalStorage(newRace) {
-        const storedRacesJson = localStorage.getItem('races');
-        console.log('storedRacesJson', storedRacesJson);
-        if (storedRacesJson !== null) {
-            const storedRaces = JSON.parse(storedRacesJson);
-            console.log('storedRaces', storedRaces);
-            localStorage.setItem('races', JSON.stringify(storedRaces.push(newRace)));
-        }
-        else {
-            localStorage.setItem('races', JSON.stringify(this.races));
         }
     }
 }

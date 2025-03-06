@@ -6,6 +6,7 @@ describe('RaceInput', () => {
         document.body.innerHTML = `
             <template id="race-input">
                 <form>
+                    <input type="hidden" id="race-id">
                     <div class="form-control">
                         <label for="name">Name</label>
                         <input type="text" id="name" />
@@ -18,12 +19,18 @@ describe('RaceInput', () => {
                         <label for="max-racer">Max</label>
                         <input type="number" id="max-racer" value="8" />
                     </div>
+                    <div class="form-control race-radio">
+                        <label for="race-completed">Race Completed?</label>
+                        <input type="checkbox" id="race-completed" name="race-completed">
+                    </div>
                     <section>
                         <div id="racers-list"></div>
                         <button type="button" id="add-racer">Add Racer</button>
                     </section>
 
+                    <button type="button" id="add-racer">Add Racer</button>
                     <button type="submit">Save Race</button>
+                    <button type="button" id="cancel">Cancel</button>
                 </form>
             </template>
             <template id="racer-entry">
@@ -37,7 +44,7 @@ describe('RaceInput', () => {
                         <input type="number" id="racer-lane-1" name="racer-lane[]" placeholder="Enter racer lane">
                     </div>
                     <div class="form-control" hidden="true">
-                        <label for="racer-place-1">Racer Place</label>
+                        <label for="racer-place-1">Finish Position</label>
                         <input type="number" id="racer-place-1" name="racer-place[]" placeholder="Enter racer place">
                     </div>
                 </div>

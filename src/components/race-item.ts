@@ -64,7 +64,7 @@ export default class RaceItem extends Component<HTMLDListElement, HTMLLIElement>
             const racerPlace = racerEntry.querySelector('#racer-place-1') as HTMLSelectElement;
             racerPlace.id = `racer-place-${index + 1}`;
             racerPlace.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8].map(place => 
-                `<option value="${place}" ${racer.racePlace !== null && racer.racePlace !== undefined && place === +racer.racePlace ? 'selected' : ''}>${place}</option>`
+                `<option value="${place}" ${racer.racePosition !== null && racer.racePosition !== undefined && place === +racer.racePosition ? 'selected' : ''}>${place}</option>`
             ).join('');
             
             const racerPlaceDiv = racerEntry.querySelector('.racer-place-div') as HTMLDivElement;

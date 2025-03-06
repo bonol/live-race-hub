@@ -29,9 +29,12 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
 
     configure(): void {
         this.availableLanes = Array.from({length: +this.maxParticipantElement.value}, (_, i) => i+1);
-        const addRacerBtn = this.element.querySelector('#add-racer');
+
         this.element.addEventListener("submit", this.submitHandler.bind(this));
+        const addRacerBtn = this.element.querySelector('#add-racer');
         addRacerBtn!.addEventListener('click', this.addRacerHandler.bind(this));
+        const cancelBtn = this.element.querySelector('#cancel');
+        cancelBtn!.addEventListener('click', this.clearForm.bind(this));
         this.raceCompletedElement.addEventListener('click', this.toggleRaceCompleted.bind(this));
     }
 
@@ -46,22 +49,24 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
         }
     }
 
-    private gatherRaceInput(): [string, string, number, number, any[], string] | void {
+    private gatherRaceInput(): [string, string, number, number, any[], boolean] | void {
         const raceId = this.idInputElement.value;
         const enteredName = this.nameInputElement.value;
         const enteredMin = this.minParticipantElement.value;
         const enteredMax = this.maxParticipantElement.value;
-        const raceCompleted = this.raceCompletedElement.value;
+        const raceCompleted = this.raceCompletedElement.value === 'true';
 
         //will need to gather racers later
         const racerEntries = this.racersListElement.querySelectorAll('.racer-entry');
         const enteredRacers = Array.from(racerEntries).map(entry => {
             const nameInput = entry.querySelector('input[name="racer-name[]"]') as HTMLInputElement;
             const laneInput = entry.querySelector('select[name="racer-lane[]"]') as HTMLSelectElement;
+            const positionInput = entry.querySelector('select[name="racer-place[]"]') as HTMLSelectElement;
             return {
                 id: uuid().toString(),
                 name: nameInput?.value || "",
-                raceLane: laneInput?.value || "",
+                raceLane: +laneInput?.value || "",
+                racePosition: +positionInput?.value || "",
             };
         });
 
@@ -104,38 +109,38 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
         if (raceInput) {
             const [id, name, min, max, racers, raceCompleted] = raceInput;
             const existRace: Race | undefined = raceState.getRace(id);
-            console.log(`race id: ${id} and exist race ${existRace}`);
+            
+            try {
+                if(existRace){
+                    existRace.name = name;
+                    existRace.min = min;
+                    existRace.max = max;
+                    existRace.racers = racers;
+                    existRace.status = raceCompleted ? RaceStatus.Finished : RaceStatus.Ready;
     
-            if(existRace){
-                existRace.name = name;
-                existRace.min = min;
-                existRace.max = max;
-                existRace.racers = racers;
-                existRace.status = raceCompleted == 'true' ? RaceStatus.Finished : RaceStatus.Ready;
-
-                raceState.editRace(existRace);
-                this.clearForm();
-            } else {
-                const newRace = new Race(
-                    uuid().toString(),
-                    name,
-                    min,
-                    max,
-                    raceCompleted == 'true' ? RaceStatus.Finished : RaceStatus.Ready,
-                    racers,
-                    []
-                );
-                try{
+                    raceState.editRace(existRace);
+                    this.clearForm();
+                } else {
+                    const newRace = new Race(
+                        uuid().toString(),
+                        name,
+                        min,
+                        max,
+                        raceCompleted ? RaceStatus.Finished : RaceStatus.Ready,
+                        racers,
+                        []
+                    );
                     raceState.addRace(newRace);
                     this.clearForm();
-                } catch (error) {
-                    if (error instanceof Error){
-                        alert(error.message);
-                    } else {
-                        alert('Error on adding new race');
-                    }
-                }            
-            }
+                         
+                }
+            } catch (error) {
+                if (error instanceof Error){
+                    alert(error.message);
+                } else {
+                    alert('Error on adding new race');
+                }
+            }       
 
         }
     }

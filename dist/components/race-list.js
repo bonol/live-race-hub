@@ -2,9 +2,10 @@ import Component from "./base-component";
 import { Race, RaceStatus } from "../models/race";
 import { raceState } from "../state/race-state";
 import RaceItem from "./race-item";
+import * as DataStorage from '../utils/data-storage';
 export default class RaceList extends Component {
     constructor(type) {
-        super("race-list", "app", false, `${type}-races`);
+        super("race-list", "app", true, `${type}-races`);
         this.type = type;
         this.assignedRaces = [];
         this.configure();
@@ -13,7 +14,6 @@ export default class RaceList extends Component {
     configure() {
         this.loadRaces();
         raceState.addListener((races) => {
-            console.log('race list listener to render race');
             this.assignedRaces = this.relevantRaces(races);
             this.renderRaces();
         });
@@ -32,12 +32,11 @@ export default class RaceList extends Component {
         }
     }
     loadRaces() {
-        const storedRaces = localStorage.getItem('races');
-        console.log('storeraces', storedRaces);
+        const storedRaces = DataStorage.fetchData('races');
         if (storedRaces !== null) {
             const parsedRaces = JSON.parse(storedRaces);
             this.assignedRaces = this.relevantRaces(parsedRaces).map((race) => new Race(race.id, race.name, race.min, race.max, race.status, race.racers, race.results));
-            raceState.races = this.assignedRaces.slice();
+            raceState.races = raceState.races.concat(this.assignedRaces.slice());
         }
     }
     relevantRaces(races) {

@@ -1,8 +1,9 @@
 export class Racer {
-    constructor(id, name, raceLane) {
+    constructor(id, name, raceLane, racePosition) {
         this.id = id;
         this.name = name;
         this.raceLane = raceLane;
+        this.racePosition = racePosition;
     }
 }
 export var RaceStatus;

@@ -3,7 +3,7 @@ export class Racer {
         public id: string,
         public name: string,
         public raceLane: number,
-        public racePlace?: number,
+        public racePosition?: number,
     ){}
 }
 

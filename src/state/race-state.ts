@@ -28,28 +28,15 @@ export class RaceState extends State<Race> {
       }
 
     addRace(newRace: Race){
-        // if (this.isRaceNameTaken(newRace.name)) {
-        //     throw new Error (`Race name ${newRace.name} already taken`);
-        // }
-        // if (this.notEnoughRacers(newRace)) {
-        //     throw new Error (`Race require at lease ${newRace.min} racers`);
-        // }
-        validateRaceInput(newRace, this.races);
+        validateRaceInput(newRace, this.races, true);
         this.races.push(newRace);
         DataStorage.saveData('races', JSON.stringify(this.races));
 
         this.updateListeners();
     }
 
-    private isRaceNameTaken(name: string): boolean {
-        return this.races.some(race => race.name === name);
-    }
-
-    private notEnoughRacers(newRace: Race){
-        return newRace.racers.length < newRace.min;
-    }
-
     editRace(raceToUpdate: Race){
+        validateRaceInput(raceToUpdate, this.races, false);
         this.races = this.races.filter(race => race.id !== raceToUpdate.id);
         this.races.push(raceToUpdate);
 

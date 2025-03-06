@@ -36,7 +36,7 @@ describe('RaceInput', () => {
                         <input type="number" id="racer-lane-1" name="racer-lane[]" placeholder="Enter racer lane">
                     </div>
                     <div class="form-control" hidden="true">
-                        <label for="racer-place-1">Racer Place</label>
+                        <label for="racer-place-1">Finish Position</label>
                         <input type="number" id="racer-place-1" name="racer-place[]" placeholder="Enter racer place">
                     </div>
                 </div>
