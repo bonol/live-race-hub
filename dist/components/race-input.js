@@ -1,7 +1,7 @@
 import Component from "./base-component";
 import { raceState } from "../state/race-state";
 import { v4 as uuid } from 'uuid';
-
+import { Race, RaceStatus } from "../models/race";
 export default class RaceInput extends Component {
     constructor() {
         super('race-input', 'app', true, 'user-input');
@@ -22,14 +22,12 @@ export default class RaceInput extends Component {
         const enteredName = this.nameInputElement.value;
         const enteredMin = this.minParticipantElement.value;
         const enteredMax = this.maxParticipantElement.value;
-        console.log('racerlistelement', this.racersListElement);
         const racerEntries = this.racersListElement.querySelectorAll('.racer-entry');
-        console.log('racerentries', racerEntries);
         const enteredRacers = Array.from(racerEntries).map(entry => {
             const nameInput = entry.querySelector('input[name="racer-name[]"]');
             const laneInput = entry.querySelector('input[name="racer-lane[]"]');
             return {
-                id: uuid(),
+                id: uuid().toString(),
                 name: (nameInput === null || nameInput === void 0 ? void 0 : nameInput.value) || "",
                 raceLane: (laneInput === null || laneInput === void 0 ? void 0 : laneInput.value) || "",
             };
@@ -39,6 +37,10 @@ export default class RaceInput extends Component {
     addRacerHandler(event) {
         event.preventDefault();
         console.log('add racer clicked');
+        if (this.racerCount === +this.maxParticipantElement.value) {
+            alert(`Max Racer #{+this.maxParticipantElement.value}`);
+            return;
+        }
         const racerEntryTemplate = document.getElementById('racer-entry');
         const racerEntry = document.importNode(racerEntryTemplate.content, true);
         this.racerCount++;
@@ -54,7 +56,26 @@ export default class RaceInput extends Component {
         const raceInput = this.gatherRaceInput();
         if (raceInput) {
             const [name, min, max, racers] = raceInput;
-            raceState.addRace(name, min, max, racers);
+            const newRace = new Race(uuid().toString(), name, min, max, RaceStatus.Ready, racers, []);
+            try {
+                raceState.addRace(newRace);
+                this.clearForm();
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    alert(error.message);
+                }
+                else {
+                    alert('Error on adding new race');
+                }
+            }
         }
+    }
+    clearForm() {
+        this.nameInputElement.value = '';
+        this.minParticipantElement.value = '2';
+        this.maxParticipantElement.value = '8';
+        this.racersListElement.innerHTML = '';
+        this.racerCount = 0;
     }
 }

@@ -1,10 +1,9 @@
 export class Racer {
     constructor(
         public id: string,
-        // public raceId: string,
         public name: string,
-        // public racePlace: number,
         public raceLane: number,
+        public racePlace?: number,
     ){}
 }
 
@@ -27,6 +26,6 @@ export class Race {
         public max: number,
         public status: RaceStatus,
         public racers: Racer[],
-        public results: RaceResult[]
+        public results?: RaceResult[]
     ){}
 }

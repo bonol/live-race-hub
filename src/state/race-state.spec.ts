@@ -1,6 +1,6 @@
 import {v4 as uuid} from 'uuid';
 import { RaceState } from "./race-state";
-import { RaceStatus } from "../models/race";
+import { RaceStatus, Race } from "../models/race";
 
 describe('RaceState', () => {
     beforeEach(() => {
@@ -21,7 +21,9 @@ describe('RaceState', () => {
             name: 'Ron',
             raceLane: 3,
         };
-        state.addRace('new race', 2, 8, [racer1, racer2]);
+        const newRace = new Race(uuid().toString(), 'new race', 2, 8, RaceStatus.Ready, [racer1, racer2], []);
+        
+        state.addRace(newRace);
         expect(state.races.length).toBe(1);
         const race = state.races[0];
         expect(race.name).toBe('new race');

@@ -4,6 +4,8 @@ module.exports = {
     mode: 'development',
     entry: './src/app.ts',
     devServer: {
+        liveReload: false,
+        hot: false,
         static: [
             {
                 directory: path.join(__dirname)

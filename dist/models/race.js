@@ -1,7 +1,6 @@
 export class Racer {
-    constructor(id, raceId, name, raceLane) {
+    constructor(id, name, raceLane) {
         this.id = id;
-        this.raceId = raceId;
         this.name = name;
         this.raceLane = raceLane;
     }

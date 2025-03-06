@@ -1,5 +1,6 @@
-import { Race, RaceStatus, Racer } from "../models/race";
-import { v4 as uuid } from 'uuid';
+import { Race } from "../models/race";
+import * as DataStorage from '../utils/data-storage'
+import { validateRaceInput } from "../utils/validation";
 
 type Listener<T> = (items: T[]) => void;
 class State<T> {
@@ -26,24 +27,40 @@ export class RaceState extends State<Race> {
         return this.instance;
       }
 
-    addRace(name: string, minParticipant: number, maxParticipant: number, racers: Racer[] ){
-        const newRace = new Race(
-            uuid().toString(),
-            name,
-            minParticipant,
-            maxParticipant,
-            RaceStatus.Ready,
-            racers,
-            []
-        );
+    addRace(newRace: Race){
+        // if (this.isRaceNameTaken(newRace.name)) {
+        //     throw new Error (`Race name ${newRace.name} already taken`);
+        // }
+        // if (this.notEnoughRacers(newRace)) {
+        //     throw new Error (`Race require at lease ${newRace.min} racers`);
+        // }
+        validateRaceInput(newRace, this.races);
         this.races.push(newRace);
-        localStorage.setItem('races', JSON.stringify(this.races));
+        DataStorage.saveData('races', JSON.stringify(this.races));
 
-        console.log('current race list', this.races);
         this.updateListeners();
     }
 
-    editRace(){}
+    private isRaceNameTaken(name: string): boolean {
+        return this.races.some(race => race.name === name);
+    }
+
+    private notEnoughRacers(newRace: Race){
+        return newRace.racers.length < newRace.min;
+    }
+
+    editRace(raceToUpdate: Race){
+        this.races = this.races.filter(race => race.id !== raceToUpdate.id);
+        this.races.push(raceToUpdate);
+
+        DataStorage.saveData('races', JSON.stringify(this.races));
+        console.log('current race list after editRace', this.races);
+        this.updateListeners();
+    }
+
+    getRace(raceId: string){
+        return this.races.find(race => race.id === raceId);
+    }
 
     deleteRace(){}
 

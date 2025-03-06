@@ -29,6 +29,17 @@ input:focus {
     background: #fff5f9;
 }
 
+.race-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.race-radio label {
+    margin-right: 0.5rem;
+}
+
+
 button {
     font: inherit;
     background: #ff0062;
@@ -46,6 +57,12 @@ button:hover,
 button:active {
   background: #a80041;
   border-color: #a80041;
+}
+
+#add-racer {
+    background: #575757;
+    border: 1px solid #575757;
+    margin: 10px 0 10px 0;
 }
 
 .races {

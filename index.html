@@ -10,27 +10,33 @@
     <body>
         <template id="race-input">
             <form>
+                <input type="hidden" id="race-id">
                 <div class="form-control">
                     <label for="name">Name</label>
                     <input type="text" id="name" />
                 </div>
-                <div class="form-control">
+                <div class="form-control"  hidden="true">
                     <label for="min-racer">Min</label>
                     <input type="number" id="min-racer" value="2" />
                 </div>
-                <div class="form-control">
+                <div class="form-control"  hidden="true">
                     <label for="max-racer">Max</label>
                     <input type="number" id="max-racer" value="8" />
                 </div>
+                <div class="form-control race-radio">
+                    <label for="race-completed">Race Completed?</label>
+                    <input type="checkbox" id="race-completed" name="race-completed">
+                </div>
                 <section>
                     <div id="racers-list"></div>
-                    <button type="button" id="add-racer">Add Racer</button>
                 </section>
-
+                
+                <button type="button" id="add-racer">Add Racer</button>
                 <button type="submit">Save Race</button>
             </form>
         </template>
         <template id="racer-entry">
+            <hr>
             <div class="racer-entry">
                 <div class="form-control">
                     <label for="racer-name-1">Racer Name</label>
@@ -38,11 +44,11 @@
                 </div>
                 <div class="form-control">
                     <label for="racer-lane-1">Racer Lane</label>
-                    <input type="number" id="racer-lane-1" name="racer-lane[]" placeholder="Enter racer lane">
+                    <select name="racer-lane[]" id="racer-lane-1"></select>
                 </div>
-                <div class="form-control" hidden="true">
+                <div class="form-control racer-place-div" hidden="true">
                     <label for="racer-place-1">Racer Place</label>
-                    <input type="number" id="racer-place-1" name="racer-place[]" placeholder="Enter racer place">
+                    <select name="racer-place[]" id="racer-place-1"></select>
                 </div>
             </div>
         </template>
@@ -51,20 +57,20 @@
                 <header>
                     <h2></h2>
                 </header>
-                <ul></ul>
+                <ul id="races-list"></ul>
             </section>
         </template>
         <template id="single-race">
             <li>
               <h2></h2>
-              <h3></h3>
-              <p></p>
+              <ul id="racers-list"></ul>
             </li>
         </template>
         <template id="single-racer">
             <li>
                 <h3></h3>
-                <h4></h4>
+                <p id="racer-lane-display"></p>
+                <p id="racer-place-display"></p>
             </li>
         </template>
 
