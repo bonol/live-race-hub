@@ -46,6 +46,9 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
         for(const racerPlaceElem of racerEntries) {
             const elem = racerPlaceElem as HTMLInputElement;
             elem.hidden = !elem.hidden;
+            elem.disabled = !this.raceCompletedElement.checked;
+            const elemPos = elem.querySelector('select') as HTMLSelectElement
+            elemPos.disabled = !elemPos.disabled;
         }
     }
 
@@ -80,6 +83,11 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
             return;
         }
 
+        if(this.racerCount >= +this.minParticipantElement.value){
+            //enable Race Completed checkbox for finish position entry
+            this.raceCompletedElement.disabled = false;
+        }
+
         const racerEntryTemplate = document.getElementById('racer-entry')! as HTMLTemplateElement;
         const racerEntry = document.importNode(racerEntryTemplate.content, true);
 
@@ -87,6 +95,12 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
         const racerDiv = racerEntry.firstElementChild as HTMLDivElement;
         racerDiv.id = `racer-entry-${this.racerCount}`;
 
+        //racer position configs
+        const racerPlace = racerEntry.querySelector('#racer-place-1')! as HTMLSelectElement;
+        racerPlace.id = `racer-place-${this.racerCount}`;
+        racerPlace.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8].map(place => `<option value="${place}">${place}</option>`).join('');
+
+        //racer land configs
         const racerLane = racerEntry.querySelector('#racer-lane-1')! as HTMLSelectElement;
         racerLane.innerHTML = this.availableLanes.map(lane => 
             `<option value="${lane}" ${this.selectedLanes.includes(lane) ? 'disabled' : ''}>${lane}</option>`

@@ -48,6 +48,7 @@ export default class RaceItem extends Component {
             racerLane.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8].map(lane => `<option value="${lane}" ${lane === +racer.raceLane ? 'selected' : ''}>${lane}</option>`).join('');
             const racerPlace = racerEntry.querySelector('#racer-place-1');
             racerPlace.id = `racer-place-${index + 1}`;
+            raceCompletedElement.disable = false;
             racerPlace.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8].map(place => `<option value="${place}" ${racer.racePosition !== null && racer.racePosition !== undefined && place === +racer.racePosition ? 'selected' : ''}>${place}</option>`).join('');
             const racerPlaceDiv = racerEntry.querySelector('.racer-place-div');
             racerPlaceDiv.hidden = !raceCompleted;

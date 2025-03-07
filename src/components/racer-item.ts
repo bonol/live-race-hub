@@ -10,7 +10,6 @@ export default class RacerItem extends Component<HTMLUListElement, HTMLLIElement
 
     constructor(hostId: string, racer: Racer){
         super('single-racer', hostId, false, racer.id);
-
         this.racer = racer;
         this.configure();
         this.renderContent();
