@@ -13,6 +13,20 @@ Live Race Hub is a web-based application designed to help teachers manage race r
 - Handle tie scenarios according to race placement rules.
 - View race results in a structured format.
 - Store all race data locally for persistence across sessions.
+- Interactive race editor for adding and updating races.
+
+## User Interface & Workflow
+
+- When the web app is running, users will see two sections: **Finished Race** and **Ready Race**.
+- Initially, no races are displayed.
+- At the bottom, there is a **Race Editor** where Teachers can:
+  - Add new races.
+  - Add racers to a race.
+  - Save races.
+- Once a race is saved, it will appear in either the **Ready Race** or **Finished Race** section based on its status.
+- Double-clicking a race will load its information into the **Race Editor** for editing.
+- Checking **'Race Completed?'** after adding racers will display the **Racer Finish Position Selector**, allowing teachers to input race results.
+- Once a finished race is saved, it will be displayed in the **Finished Race** section.
 
 ## Installation & Setup
 
@@ -52,15 +66,8 @@ Tests provide coverage for race creation, result recording, and data validation.
 
 All race-related data is stored in the browser using `localStorage`, ensuring that information persists across page reloads.
 
-## Upcoming Enhancements
-
-- UI improvements for a better user experience.
-- Exporting race results as a downloadable file.
-- Option to reset all stored race data.
 
 For further details on the implementation, refer to the project code and commit history. More documentation will be added as needed.
 
 ---
-
-Developed as part of the Liveheats Coding Challenge.
 
