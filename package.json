@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack",
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
     "test": "jest"
   },
   "keywords": [],
@@ -28,5 +28,6 @@
   },
   "dependencies": {
     "uuid": "^11.1.0"
-  }
+  },
+  "mode": "production"
 }

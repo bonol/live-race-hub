@@ -160,6 +160,7 @@ export default class RaceInput extends Component<HTMLDivElement, HTMLFormElement
     }
 
     private clearForm(){
+        this.idInputElement.value = '';
         this.nameInputElement.value = '';
         this.minParticipantElement.value = '2';
         this.maxParticipantElement.value = '8';
